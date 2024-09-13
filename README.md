@@ -1,9 +1,68 @@
 # Платформа онлайн курсов
-# Чопчиц Дмитрий Андреевич
-# 253501
-# Online Learning Platform Database Schema
+## Чопчиц Дмитрий Андреевич
+### 253501
 
-This database schema is designed for an online learning platform, supporting various features such as course management, user accounts, content delivery, and social interactions.
+## Функциональные требования
+
+### 1. Управление курсами
+
+- Создание новых курсов с возможностью выбора категории и темы
+- Изменение информации о курсе (описание, цена, длительность)
+- Удаление курсов
+- Организация курсов в категории и темы
+
+### 2. Управление пользователями
+
+- Регистрация новых пользователей
+- Аутентификация пользователей
+- Обновление профилей пользователей
+- Удаление аккаунтов пользователей
+
+### 3. Управление преподавателями
+
+- Добавление новых преподавателей
+- Изменение информации о преподавателях
+- Удаление преподавателей
+- Назначение преподавателей к курсам
+
+### 4. Управление учебным материалом
+
+- Добавление уроков к курсам
+- Изменение содержимого уроков
+- Удаление уроков
+- Организация учебного материала в иерархической структуре
+
+### 5. Управление заданиями и тестами
+
+- Создание заданий и тестов для курсов
+- Выпуск заданий и тестов для студентов
+- Оценка ответов студентов
+- Подсчет итоговых баллов
+
+### 6. Управление отзывами
+
+- Оставление отзывов о курсах
+- Публикация отзывов
+- Удаление отзывов (при необходимости)
+- Оценка качества курсов на основе отзывов
+
+### 7. Управление регистрацией на курсы
+
+- Просмотр доступных курсов
+- Регистрация на курсы
+- Отмена регистрации на курсы
+- Отслеживание статуса регистрации пользователей
+
+### 8. Управление административными функциями
+
+- Просмотр общего состояния системы
+- Управление правами доступа пользователей
+- Обнаружение и обработка ошибок
+
+### 9. Журналирование  действий пользователя
+- Запись всех действий пользователя
+- А так же запись даты и краткое описание действия
+
 
 ## Table Structure
 
@@ -22,61 +81,61 @@ This database schema is designed for an online learning platform, supporting var
 | Field        | Data Type     | Description |
 |--------------|---------------|-------------|
 | ID           | INT PRIMARY KEY | Unique identifier for the user |
-| Username     | VARCHAR(50)   | User name |
+| Username     | VARCHAR(30)   | User name |
 | Email        | VARCHAR(100)  | Email address |
 | PasswordHash | VARCHAR(255)  | Hashed password |
 | Role         | ENUM('student', 'teacher', 'admin') | User role |
 
-### 3. Instructor (Преподаватель)
+### 3. UserProfile (Профиль)
+
+| Field        | Data Type     | Description |
+|--------------|---------------|-------------|
+| UsedId       | INT           | Unique identifier for the user |
+| FirstName    | VARCHAR(50)   | First name |
+| LastNam      | VARCHAR(50)   | Last Name |
+| BirthDate    | DateTime      | Date of birth |
+
+### 4. Instructor (Преподаватель)
 
 | Field        | Data Type     | Description |
 |--------------|---------------|-------------|
 | ID           | INT PRIMARY KEY | Unique identifier for the instructor |
-| Name         | VARCHAR(100)  | Instructor name |
+| Name         | VARCHAR(50)  | Instructor name |
 | Bio          | TEXT          | Instructor biography |
-| Experience   | INT           | Years of experience as an instructor |
+| Experience   | TEXT          | Years of experience as an instructor |
 
-### 4. Category (Категория)
+### 5. Category (Категория)
 
 | Field        | Data Type     | Description |
 |--------------|---------------|-------------|
 | ID           | INT PRIMARY KEY | Unique identifier for the category |
-| Name         | VARCHAR(50)    | Category name |
+| Title        | VARCHAR(50)    | Category name |
 | Description  | TEXT          | Category description |
 
-### 5. Topic (Тема)
-
-| Field        | Data Type     | Description |
-|--------------|---------------|-------------|
-| ID           | INT PRIMARY KEY | Unique identifier for the topic |
-| Name         | VARCHAR(50)    | Topic name |
-| Description  | TEXT          | Topic description |
-
-### 6. Chapter (Глава)
-
-| Field        | Data Type     | Description |
-|--------------|---------------|-------------|
-| ID           | INT PRIMARY KEY | Unique identifier for the chapter |
-| Title        | VARCHAR(100)  | Chapter title |
-| Content      | TEXT          | Chapter content |
-| Order        | INT           | Chapter order in the course |
-
-### 7. Lesson (Урок)
+### 6. Lesson (Урок)
 
 | Field        | Data Type     | Description |
 |--------------|---------------|-------------|
 | ID           | INT PRIMARY KEY | Unique identifier for the lesson |
 | Title        | VARCHAR(100)  | Lesson title |
-| Content      | TEXT          | Lesson content |
-| Type         | ENUM('video', 'text', 'interactive') | Lesson type |
-| Order        | INT           | Lesson order in the chapter |
+| ContentUR    | TEXT          | Lesson content |
+| TypeId       | INT           | Lesson type |
+| OrderPos     | INT           | Lesson order in the chapter |
+
+### 7. LessonType (Тип урока)
+
+| Field        | Data Type     | Description |
+|--------------|---------------|-------------|
+| ID           | INT PRIMARY KEY | Unique identifier for the lesson |
+| Name         | VARCHAR(50)   | Lesson title |
+| Duration     | INT           | Lesson duration in hours|
 
 ### 8. Assignment (Задание)
 
 | Field        | Data Type     | Description |
 |--------------|---------------|-------------|
 | ID           | INT PRIMARY KEY | Unique identifier for the assignment |
-| Title        | VARCHAR(100)  | Assignment title |
+| Title        | VARCHAR(50)  | Assignment title |
 | Description  | TEXT          | Assignment description |
 | Type         | ENUM('test', 'project', 'review') | Assignment type |
 | Deadline     | DATE          | Assignment deadline |
@@ -96,7 +155,71 @@ This database schema is designed for an online learning platform, supporting var
 | Field        | Data Type     | Description |
 |--------------|---------------|-------------|
 | ID           | INT PRIMARY KEY | Unique identifier for enrollment |
-| CourseID     | INT           | Identifier of the enrolled course (FOREIGN KEY) |
-| UserID       | INT           | Identifier of the user (FOREIGN KEY) |
-| EnrollmentDate | DATE         | Date of enrollment |
-| Status      | ENUM('active', 'completed', 'cancelled') | Enrollment status |
+| CourseID     | INT           | Identifier of the enrolled course |
+| UserID       | INT           | Identifier of the user |
+| Date         | DATE          | Date of enrollment |
+| StatusTypeId | INT           | Enrollment statustype |
+
+### 10. Statustype (Статус регистрации на курс)
+
+| Field        | Data Type     | Description |
+|--------------|---------------|-------------|
+| ID           | INT PRIMARY KEY | Unique identifier for Statustype |
+| title        | VARCHAR(50)   | Status of course |
+
+### 11. Action (Действия пользователя)
+
+| Field        | Data Type     | Description |
+|--------------|---------------|-------------|
+| ID           | INT PRIMARY KEY | Unique identifier for action |
+| UserID       | INT           | Identifier of the user |
+| TimeStamp    | TimeStamp     | Date of action |
+| ActionType   | Enum          | type of action |
+| Description  | TEXT          | Аction description |
+
+## Взаимосвязи
+
+Следующие взаимосвязи существуют между таблицами:
+
+### 1. Одно ко одному: User и Instructor
+
+- Инструктор является также пользователем, но не все пользователи являются инструкторами.
+- Эта связь позволяет легко идентифицировать преподавательский персонал в системе.
+
+### 2. Одно ко многим: Course и Lessons
+
+- Каждый курс может иметь несколько глав и уроков.
+- Главы содержат уроки, создавая иерархическую структуру для контента курса.
+
+### 3. Многие ко многим: User и Course
+
+- Пользователи могут зарегистрироваться на нескольких курсах.
+- Курсы могут иметь множество зарегистрированных пользователей.
+- Эта связь поддерживает основную функциональность платформы обучения.
+
+### 4. Одно ко многим: User и Action
+
+- Пользователи могут множество действий.
+- Каждое действие соверешено конкретным пользователем.
+- Эта связь поддерживает журнал событий платформы обучения.
+
+### 5. Многие ко многим: Instructor и Course
+
+- Инструкторы могут преподавать несколько курсов.
+- Курсы могут иметь множество инструкторов.
+- Эта связь позволяет организовывать совместное обучение.
+
+### 6. Одно ко многим: Course и Reviews
+
+- Каждый курс может получить множество отзывов от пользователей.
+- Отзывы ассоциируются со конкретными курсами.
+
+### 7. Одно ко многим: User и Enrollments
+
+- Каждый пользователь может иметь множество записей о регистрации в разных курсах.
+- Записи о регистрации отслеживают участие пользователей в курсах во времени.
+
+### 8. Одно ко многим: Course и Assignments
+
+- Каждый курс может иметь множество заданий.
+- Задания используются для оценки прогресса и понимания студентов.
