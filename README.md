@@ -74,7 +74,8 @@
 | Title        | VARCHAR(255)  | Course title |
 | Description  | TEXT          | Course description |
 | Price        | DECIMAL(10, 2)| Course price |
-| Duration     | INT           | Course duration in hours |
+| StartDate    | Date           | Course start time |
+| EndDate      | Date           | Course end time |
 
 ### 2. User (Пользователь)
 
