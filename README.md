@@ -91,7 +91,7 @@
 
 | Field        | Data Type     | Description |
 |--------------|---------------|-------------|
-| UsedId       | INT           | Unique identifier for the user |
+| UserID       | INT FOREIGN KEY| Unique identifier for the user |
 | FirstName    | VARCHAR(50)   | First name |
 | LastNam      | VARCHAR(50)   | Last Name |
 | BirthDate    | DateTime      | Date of birth |
@@ -117,10 +117,10 @@
 
 | Field        | Data Type     | Description |
 |--------------|---------------|-------------|
-| ID           | INT PRIMARY KEY | Unique identifier for the lesson |
+| ID           | INT PRIMARY KEY| Unique identifier for the lesson |
 | Title        | VARCHAR(100)  | Lesson title |
 | ContentUR    | TEXT          | Lesson content |
-| TypeId       | INT           | Lesson type |
+| TypeId       | INT FOREIGN KEY| Lesson type |
 | OrderPos     | INT           | Lesson order in the chapter |
 
 ### 7. LessonType (Тип урока)
@@ -135,10 +135,10 @@
 
 | Field        | Data Type     | Description |
 |--------------|---------------|-------------|
-| ID           | INT PRIMARY KEY | Unique identifier for the assignment |
-| Title        | VARCHAR(50)  | Assignment title |
+| ID           | INT PRIMARY KEY| Unique identifier for the assignment |
+| Title        | VARCHAR(50)   | Assignment title |
 | Description  | TEXT          | Assignment description |
-| Type         | ENUM('test', 'project', 'review') | Assignment type |
+| TypeID       | INT FOREIGN KEY| Assignment type |
 | Deadline     | DATE          | Assignment deadline |
 
 ### 9. Review (Отзыв)
@@ -148,18 +148,17 @@
 | ID           | INT PRIMARY KEY | Unique identifier for the review |
 | Rating       | TINYINT        | Course rating (1-5) |
 | Comment      | TEXT          | Review comment |
-| CourseID    | INT           | Identifier of the related course (FOREIGN KEY) |
-| UserID       | INT           | Identifier of the user who left the review (FOREIGN KEY) |
+| CourseID     | INT FOREIGN KEY| Identifier of the related course |
+| UserID       | INT FOREIGN KEY| Identifier of the user who left the review |
 
 ### 10. Enrollment (Регистрация на курс)
 
 | Field        | Data Type     | Description |
 |--------------|---------------|-------------|
-| ID           | INT PRIMARY KEY | Unique identifier for enrollment |
-| CourseID     | INT           | Identifier of the enrolled course |
-| UserID       | INT           | Identifier of the user |
-| Date         | DATE          | Date of enrollment |
-| StatusTypeId | INT           | Enrollment statustype |
+| CourseID     | INT FOREIGN KEY| Identifier of the enrolled course |
+| UserID       | INT FOREIGN KEY| Identifier of the user |
+| Date         | DATE           | Date of enrollment |
+| StatusTypeID | INT FOREIGN KEY| Enrollment statustype |
 
 ### 10. Statustype (Статус регистрации на курс)
 
@@ -173,7 +172,7 @@
 | Field        | Data Type     | Description |
 |--------------|---------------|-------------|
 | ID           | INT PRIMARY KEY | Unique identifier for action |
-| UserID       | INT           | Identifier of the user |
+| UserID       | INT FOREIGN KEY| Identifier of the user |
 | TimeStamp    | TimeStamp     | Date of action |
 | ActionType   | Enum          | type of action |
 | Description  | TEXT          | Аction description |
